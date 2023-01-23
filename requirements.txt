@@ -8,3 +8,4 @@ pyromod
 requests
 bs4
 cinemagoer==2022.12.27
+aiohttp
