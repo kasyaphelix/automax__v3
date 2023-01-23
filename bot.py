@@ -10,6 +10,8 @@ from pyrogram.raw.all import layer
 from utils import Media
 from info import SESSION, API_ID, API_HASH, BOT_TOKEN
 import pyromod.listen
+from aiohttp import web
+from plugins import web_server
 
 class Bot(Client):
 
@@ -30,6 +32,11 @@ class Bot(Client):
         me = await self.get_me()
         self.username = '@' + me.username
         print(f"{me.first_name} with for Pyrogram v{__version__} (Layer {layer}) started 🥂on {me.username}.")
+        app = web.AppRunner(await web_server())
+        await app.setup()
+        P = "8080"
+        bind_address = "0.0.0.0"
+        await web.TCPSite(app, bind_address, P).start()
 
     async def stop(self, *args):
         await super().stop()
